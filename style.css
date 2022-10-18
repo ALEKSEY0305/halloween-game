@@ -113,8 +113,12 @@ html {
     font-family: Creepy, serif;
 }
 
+.overlay-text-small{
+    font-size: .3em;
+}
 .overlay-text.visible {
     display: flex;
+    flex-direction: column;
     animation: overlay-grow 500ms forwards;
 }
 @keyframes overlay-grow{
