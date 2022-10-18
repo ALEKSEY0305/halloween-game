@@ -207,3 +207,14 @@ html {
 .card-back:hover .spider {
     transform: translateY(0);
 }
+
+@media (max-width: 600px) {
+    .game-container{
+        grid-template-columns: repeat(2,auto);
+    }
+
+    .game-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
