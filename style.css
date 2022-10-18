@@ -1,16 +1,20 @@
 @font-face {
     font-family: "Creepy";
-    src: url("/assets/Fonts/Creepy.woff") format("woff"), 
-    url("/assets/Fonts/Creepy.woff2") format("woff2");
+    src: url("/assets/Fonts/Creepy.woff") format("woff"),
+        url("/assets/Fonts/Creepy.woff2") format("woff2");
 }
 
 @font-face {
     font-family: "Lunacy";
-    src: url("/assets/Fonts/Lunacy.woff") format("woff"), 
-    url("/assets/Fonts/Lunacy.woff2") format("woff2");
+    src: url("/assets/Fonts/Lunacy.woff") format("woff"),
+        url("/assets/Fonts/Lunacy.woff2") format("woff2");
 }
 
-*{
+:root {
+    --pumpkin: #FF6D00;
+}
+
+* {
     box-sizing: border-box;
 
 }
@@ -25,13 +29,14 @@ html {
 }
 
 .page-title {
-    color: #FF6D00;
+    color: var(--pumpkin);
     font-family: Creepy, serif;
     font-weight: normal;
     text-align: center;
     font-size: 6em;
 
 }
+
 .game-container {
     display: grid;
     grid-template-columns: repeat(4, auto);
@@ -40,12 +45,14 @@ html {
     justify-content: center;
 
 }
+
 .game-info-container {
     grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
 
 }
+
 .game-info {
     font-family: Lunacy, serif;
     color: #ffbb89;
@@ -55,7 +62,7 @@ html {
 
 .card {
     position: relative;
-    background-color: black;
+    /* background-color: black; */
     height: 175px;
     width: 125px;
 
@@ -70,23 +77,60 @@ html {
     align-items: center;
     overflow: hidden;
     backface-visibility: hidden;
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.card.visible .card-back{
+    transform: rotateY(-180deg);
+}
+.card.visible .card-front {
+    transform: rotateY(0);
+
+}
+
+.card-back {
+    background-color: black;
+    border-color: #333;
+    border-color: var(--pumpkin);
 
 }
 
 .card-front {
-    transform: rotateX(180deg); 
+    transform: rotateY(180deg);
+    background-color: #ffbb89;
+    transform: rotateY(180deg);
+}
+.card-value{
+    transform: scale(.9);
+    transition: transform 100ms ease-in-out;
+
+}
+
+.card-front:hover .card-value {
+    transform: scale(1);
 }
 
 .cob-web {
     position: absolute;
     width: 47px;
     height: 47px;
+    transition: width 100ms ease-in-out, height 100ms ease-in-out;
 }
+
+.card-face:hover .cob-web {
+    width: 52px;
+    height: 52px;
+
+}
+
 .cob-web-top-left {
     transform: rotate(270deg);
     top: 0;
     left: 0;
 }
+
 .cob-web-top-right {
     top: 0;
     right: 0;
@@ -97,11 +141,13 @@ html {
     bottom: 0;
     left: 0;
 }
+
 .cob-web-bottom-right {
     transform: rotate(90deg);
     bottom: 0;
     right: 0;
 }
+
 .spider {
     align-self: flex-start;
     transform: translateY(-10px);
