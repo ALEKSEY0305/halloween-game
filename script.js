@@ -49,16 +49,20 @@ class MixOrMatch {
         setTimeout(() => {
             this.audioController.bgMusic.startMusic();
             this.shuffleCards();
-            this.countdown = this.startCountdown();
+            this.countDown = this.startCountDown();
             this.busy = false;
         }, 500);
         this.hideCards();
         this.timer.innerText = this.timeRemaining;
         this.ticker.innerText = this.totalClicks;
     }
-    
-
-    flipCard(card) {
+    hideCards() {
+        this.cardsArray.forEach(card => {
+            card.classlist.remove('visible');
+            card.classList.remove('matched');
+        });
+    }
+       flipCard(card) {
         if(this.canFlipCard(card)) {
             this.audioController.flip(); 
             this.totalClicks++;
@@ -67,6 +71,17 @@ class MixOrMatch {
 
             //if statement
         }
+    }
+    startCountDown() {
+        return setInterval(() => {
+            this.timeRemaining--;
+            this.timer.innerText = this.timeRemaining;
+            if(this.timeRemaining === 0)
+                this.gameOver();
+        }, 1000);
+    }
+    gameOver() {
+        clearInterval(this.countDown);
     }
 
     shuffleCards() {
