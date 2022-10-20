@@ -23,7 +23,7 @@ class AudioController {
     }
     victory() {
         this.stopMusic();
-        this.victory.play();
+        this.victorySound.play();
     }
     gameOver() {
         this.stopMusic();
@@ -48,7 +48,7 @@ class MixOrMatch {
         this.busy = true;
         setTimeout(() => {
             this.audioController.startMusic();
-            this.shuffleCards();
+            this.shuffleCards(this.cardsArray);
             this.countDown = this.startCountDown();
             this.busy = false;
         }, 500);
@@ -58,10 +58,13 @@ class MixOrMatch {
     }
     hideCards() {
         this.cardsArray.forEach(card => {
-            card.classlist.remove('visible');
+            card.classList.remove('visible');
             card.classList.remove('matched');
         });
     }
+
+
+    
     flipCard(card) {
         if(this.canFlipCard(card)) {
             this.audioController.flip(); 
@@ -69,10 +72,11 @@ class MixOrMatch {
             this.ticker.innerText = this.totalClicks;
             card.classList.add('visible');
 
-            if(this.cardToCheck)
+            if(this.cardToCheck) {
                 this.checkForCardMatch(card);
-                else
-                    this.cardToCheck = card;
+            }else {
+                this.cardToCheck = card;
+            }
         }
     }
     checkForCardMatch(card) {
@@ -80,22 +84,23 @@ class MixOrMatch {
             this.cardMatch(card, this.cardToCheck);
         else
             this.cardMisMatch(card, this.cardToCheck);
+
         this.cardToCheck = null;
     }
     cardMatch(card1, card2) {
         this.matchedCards.push(card1);
         this.matchedCards.push(card2);
-        card1.classlist.add('matched');
-        card2.classlist.add('matched');
+        card1.classList.add('matched');
+        card2.classList.add('matched');
         this.audioController.match();
-        if(this.matchedCards.length === this.cardsArray) 
+        if(this.matchedCards.length === this.cardsArray.length) 
             this.victory();
     }
     cardMisMatch(card1, card2) {
         this.busy = true;
         setTimeout(() => {
-            card1.classlist.remove('visible');
-            card2.classlist.remove('visible');
+            card1.classList.remove('visible');
+            card2.classList.remove('visible');
             this.busy = false;
         }, 1000);
 
