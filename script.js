@@ -62,7 +62,7 @@ class MixOrMatch {
             card.classList.remove('matched');
         });
     }
-       flipCard(card) {
+    flipCard(card) {
         if(this.canFlipCard(card)) {
             this.audioController.flip(); 
             this.totalClicks++;
@@ -70,12 +70,41 @@ class MixOrMatch {
             card.classList.add('visible');
 
             if(this.cardToCheck)
-                // check for match
+                this.checkForCardMatch(card);
                 else
                     this.cardToCheck = card;
         }
     }
-    
+    checkForCardMatch(card) {
+        if(this.getCardType(card) === this.getCardType(this.cardToCheck))
+            this.cardMatch(card, this.cardToCheck);
+        else
+            this.cardMisMatch(card, this.cardToCheck);
+        this.cardToCheck = null;
+    }
+    cardMatch(card1, card2) {
+        this.matchedCards.push(card1);
+        this.matchedCards.push(card2);
+        card1.classlist.add('matched');
+        card2.classlist.add('matched');
+        this.audioController.match();
+        if(this.matchedCards.length === this.cardsArray) 
+            this.victory();
+    }
+    cardMisMatch(card1, card2) {
+        this.busy = true;
+        setTimeout(() => {
+            card1.classlist.remove('visible');
+            card2.classlist.remove('visible');
+            this.busy = false;
+        }, 1000);
+
+    }
+
+    getCardType(card) {
+        return card.getElementsByClassName('card-value')[0].scr;
+    }
+
     startCountDown() {
         return setInterval(() => {
             this.timeRemaining--;
@@ -103,8 +132,7 @@ class MixOrMatch {
         }
     }
     canFlipCard(card) {
-        return true;
-        //return !this.busy && !this.matchedCards.includes(card) && card !== this.cardToCheck;
+        return !this.busy && !this.matchedCards.includes(card) && card !== this.cardToCheck;
     }
 }
 
